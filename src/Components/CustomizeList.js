@@ -14,9 +14,9 @@ class CustomizeList extends Component {
     constructor(props) {
       super(props);
     this.state = {
-        
-        
-    };
+    //  email: this.props.navigation.state.params.data,
+      //data: []
+            };
   }
 
 render(){
@@ -24,9 +24,10 @@ render(){
         <Card>
         <Image
   style={{width: 80, height: 50}}
-  source={{uri: props.item.image}}
+  source={{uri:item.url}}
+ 
 />
-
+<Text>hi</Text>
     </Card>
 
 
@@ -34,6 +35,7 @@ render(){
 }
    
 }
+
 
 
 const styles = StyleSheet.create({

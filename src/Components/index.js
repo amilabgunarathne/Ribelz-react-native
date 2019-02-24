@@ -95,7 +95,7 @@ class UserProfile extends Component {
         <ScrollView keyboardShouldPersistTaps='always'>
           <KeyboardAvoidingView behavior="padding" enabled>
             {/* <View style={styles.containerStyle2}>
-                      <Image source={require('./pics/ic_launcher.png')} style={styles.imageStyle} />
+                      <Image source={require('./pics/background.jpg')} style={styles.imageStyle} />
                   </View> */}
             <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Ribelz Jobs User Profile</Text>
@@ -237,8 +237,8 @@ class AdminProfile extends Component {
         <Img />
         <ScrollView keyboardShouldPersistTaps='always'>
           <KeyboardAvoidingView behavior="padding" enabled>
-            {/* <View style={styles.containerStyle2}>
-                      <Image source={require('./pics/ic_launcher.png')} style={styles.imageStyle} />
+          {/* <View style={styles.containerStyle2}>
+                      <Image source={require('./pics/background.jpg')} style={styles.imageStyle} />
                   </View> */}
             <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>Ribelz Jobs Company Profile</Text>
@@ -323,6 +323,14 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     // width: '100%'
   },
+  containerStyle2: {
+    marginTop: 10,
+    marginLeft:50,
+    height: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+},
   labelStyle: {
     fontSize: 18,
     paddingLeft: 20,
@@ -341,15 +349,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  containerStyle2: {
-    marginTop: 50,
-    height: 150,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+
   imageStyle: {
-    height: 175,
-    width: 150
+    height: 85,
+    width: 60
   },
   errorStyle: {
     fontSize: 20,

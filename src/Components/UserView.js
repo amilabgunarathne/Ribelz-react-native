@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TouchableOpacity, Image, Alert, FlatList, ScrollView } from 'react-native';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+import { Platform, StyleSheet, Text, View, TouchableOpacity, Image, Alert, FlatList, ScrollView,Linking } from 'react-native';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Button from './common/Button';
 import { TabViewAnimated, TabViewPage, TabBarTop } from 'react-native-tab-view';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import CustomizeList from './CustomizeList';
 import card from './common/Card';
 import Img from './common/background';
 import Card from './common/Card';
+import Modal from "react-native-modal";
+
 
 class UserView extends Component {
   static navigationOptions =
@@ -15,10 +17,14 @@ class UserView extends Component {
       title: '',
       headerStyle: { backgroundColor: 'transparent', height: 0 }
     };
+
   state = {
     scrollEnabled: true,
-    data: []
+    data: [],
+    isModalVisible: false
   };
+
+
 
   componentWillMount() {
     this.fetchData();
@@ -33,12 +39,41 @@ class UserView extends Component {
     );
 
   }
-goToNextScreen(){
-  console.log("work");
-  // const { navigate } = this.props.navigation;
-  // navigate('CustomizeList');
+  // renderWeb() {
+  //   const goBack = () =>
+  //   {
+  //       this.props.navigation.goBack()
+  //   }
+  //   return (
+  //     <View style={{paddingTop:20, flex:1}}>
+  //     <Webbrowser
+  //         url="https://facebook.github.io/react-native/docs/"
+  //         hideHomeButton={false}
+  //         hideToolbar={false}
+  //         hideAddressBar={false}
+  //         hideStatusBar={true}
+  //         backButtonVisible={true}
+  //         onBackPress= {() => {goBack()}}
+  //         foregroundColor="#D61B5D"
+  //         backgroundColor="#F3848A"
+  //     />
 
-}
+  // </View>
+  //   );
+
+  // }
+  // _toggleModal = () =>
+  //   this.setState({ isModalVisible: !this.state.isModalVisible });
+  // goToNextScreen(){
+  //   console.log("work");
+  // //   <WebView
+  // //   source={{uri: 'https://github.com/facebook/react-native'}}
+  // //   style={{marginTop: 20}}
+  // // />
+  //   // const { navigate } = this.props.navigation;
+  //   // navigate('CustomizeList');
+
+  // }
   fetchData = async () => {
     const response = await fetch("https://unconsidered-baths.000webhostapp.com/ribelz/list.php");
     const json = await response.json();
@@ -67,29 +102,47 @@ goToNextScreen(){
   }
 
   renderListItem = ({ item }) => (
-    <TouchableOpacity style={styles.linkStyle} >
+    <View style={{ flex: 1,paddingLeft:10,paddingRight:10,paddingTop:10 }}>
+    <TouchableOpacity style={styles.linkStyle} onPress= { () => Linking.openURL(item.image)} >
 
-      <View style={{ width: '80%', height: 60, alignItems: 'flex-start', justifyContent: 'center',flexDirection: 'column' }}>
+      <View style={{ width: '80%', height: 70, alignItems: 'flex-start',  flexDirection: 'column' }}>
         <View style={{
-          width: '50%', height: 50, alignItems: 'flex-end', justifyContent: 'center',
+          width: '80%', height: 50, alignItems: 'flex-start', justifyContent: 'center',
         }} >
           <Text style={styles.textStyle1}>{item.post}</Text>
           <Text style={styles.textStyle1}>{item.description}</Text>
+          
         </View>
-        <View style={{ width: '80%', height: 30, alignItems: 'flex-end', justifyContent: 'center', flexDirection: 'row' }}>
+        <View style={{ width: '80%', height: 20, alignItems: 'flex-start', flexDirection: 'row' }}>
           <Text style={styles.textStyle2}>{item.company_name}</Text>
-          <Text style={styles.textStyle2}>{item.url}</Text>
+          <View style={styles.dateStyle}>
+          <Text style={styles.textStyle2}>{item.exp}</Text>
+          </View>
         </View>
 
       </View>
       <View style={styles.iconViewStyle}>
-        <Image
+            <Image
           style={styles.iconStyle}
           source={require('./pics/right-arrow.png')}
         />
-      </View>
 
-    </TouchableOpacity>
+          </View>
+          </TouchableOpacity>
+
+
+    </View>
+  //   <View style={{flex=1}}>
+  //   <Modal isVisible={this.state.isModalVisible}>
+  // <View style={{ flex: 1 }}>
+  //     <Text>Hello!</Text>
+  //
+  //     <TouchableOpacity onPress={this._toggleModal}>
+  //       <Text>Hide me!</Text>
+  //     </TouchableOpacity>
+  //     </View>
+  // </Modal>
+  // </View>
   )
 
 
@@ -98,20 +151,21 @@ goToNextScreen(){
     return (
       <View style={styles.bGround}>
         <Img />
-       
-          <View>
-            <FlatList
-              data={this.state.data}
-              keyExtractor={(x, i) => i}
-              renderItem={this.renderListItem}
-              scrollEnabled={this.state.scrollEnabled}
-            />
-            {/* {this.renderAlbums()} */}
-          </View>
-          <View style={styles.buttonStyle}>
-            {this.renderButton()}
-          </View>
-    
+
+        <View>
+          <FlatList
+            data={this.state.data}
+            keyExtractor={(x, i) => i}
+            renderItem={this.renderListItem}
+            scrollEnabled={this.state.scrollEnabled}
+          />
+          {/* {this.renderAlbums()} */}
+        </View>
+
+        <View style={styles.buttonStyle}>
+          {this.renderButton()}
+        </View>
+
       </View>
     );
   }
@@ -141,12 +195,17 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
     alignItems: 'flex-start'
- 
+
   },
   textStyle: {
     fontSize: 20,
     paddingLeft: 10,
-    color: '#000'
+    color: '#ff0000'
+  },
+  dateStyle: {
+    
+    paddingLeft: 50,
+    color: '#00ffff'
   },
   textStyle1: {
     fontSize: 18,

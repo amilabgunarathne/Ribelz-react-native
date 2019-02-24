@@ -210,7 +210,7 @@ class CompanyView extends Component {
                         />
                         <DatePicker
                             style={{ width: 330 }}
-                            date={this.state.date}
+                            date={this.state.exp}
                             mode="date"
                             width= '50'
                             placeholder="Expire date "
@@ -233,7 +233,7 @@ class CompanyView extends Component {
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
-                            onDateChange={(exp) => { this.setState({ exp: exp }) }}
+                            onDateChange={(date) => { this.setState({exp: date }) }}
                         />
                         <CardSection style={styles.containerStyle}>
                             <Image source={this.state.avatarSource} style={{ width: 100, height: 100, margin: 3, alignItems: 'center' }} />
