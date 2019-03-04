@@ -15,7 +15,7 @@ class UserProfile extends Component {
     //this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.state = {
         user_email: '', user_password: '',
-        //error: '', loading: false 
+        //error: '', loading: false
     };
 }
   // static navigationOptions =
@@ -37,7 +37,6 @@ class UserProfile extends Component {
             email: this.state.user_email,
             password: this.state.user_password
         })
-
     }).then((response) => response.json())
         .then((responseJson) => {
             if (responseJson === 'Data Matched') {
@@ -45,21 +44,19 @@ class UserProfile extends Component {
                 //Then open Profile activity and send user email to profile activity.
                 navigate('UserView', { email: this.state.user_email });
                 // this.setState({ loading: false });
-
             }
             else {
                 Alert.alert(responseJson);
-                // this.setState({ loading: false });
-            }
+                        }
         }).catch((error) => {
             Alert.alert(responseJson);
-        });
+        });  }
    // navigate('UserView');
     // const { navigate } = this.props.navigation;
     // navigate('twoScreen');
-  }
+
   onButtonPress1() {
-    
+
     const { navigate } = this.props.navigation;
     navigate('UserRegister');
 }
@@ -162,7 +159,7 @@ class AdminProfile extends Component {
     //this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.state = {
         user_email: '', user_password: '',
-        //error: '', loading: false 
+        //error: '', loading: false
     };
 }
   // static navigationOptions =
@@ -199,7 +196,7 @@ class AdminProfile extends Component {
       }).catch((error) => {
           Alert.alert(responseJson);
       });
-    
+
   }
   onButtonPress1() {
     console.log("Working");

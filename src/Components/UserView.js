@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TouchableOpacity, Image, Alert, FlatList, ScrollView,Linking } from 'react-native';
+import { Platform, StyleSheet, Text, View,TouchableHighlight,  TouchableOpacity, Image, Alert, FlatList, ScrollView,Linking } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Button from './common/Button';
 import { TabViewAnimated, TabViewPage, TabBarTop } from 'react-native-tab-view';
@@ -111,27 +111,22 @@ class UserView extends Component {
         }} >
           <Text style={styles.textStyle1}>{item.post}</Text>
           <Text style={styles.textStyle1}>{item.description}</Text>
-          
-        </View>
+                  </View>
         <View style={{ width: '80%', height: 20, alignItems: 'flex-start', flexDirection: 'row' }}>
           <Text style={styles.textStyle2}>{item.company_name}</Text>
           <View style={styles.dateStyle}>
           <Text style={styles.textStyle2}>{item.exp}</Text>
           </View>
         </View>
-
       </View>
       <View style={styles.iconViewStyle}>
             <Image
           style={styles.iconStyle}
           source={require('./pics/right-arrow.png')}
         />
-
           </View>
           </TouchableOpacity>
-
-
-    </View>
+    </View>  )
   //   <View style={{flex=1}}>
   //   <Modal isVisible={this.state.isModalVisible}>
   // <View style={{ flex: 1 }}>
@@ -143,7 +138,7 @@ class UserView extends Component {
   //     </View>
   // </Modal>
   // </View>
-  )
+
 
 
 
@@ -203,7 +198,7 @@ const styles = StyleSheet.create({
     color: '#ff0000'
   },
   dateStyle: {
-    
+
     paddingLeft: 50,
     color: '#00ffff'
   },

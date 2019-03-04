@@ -74,7 +74,7 @@ class CompanyView extends Component {
         }, [
 
                 // custom content type
-                { name: 'image', filename: 'image.png', type: 'image/png', data: this.state.data }
+                { name: 'image', filename: 'image.jpeg', type: 'image/jpeg', data: this.state.data }
 
 
             ]).then((response) => response.json())
@@ -312,7 +312,7 @@ const styles = StyleSheet.create(
             fontSize: 20,
             paddingLeft: 2,
             alignItems:'center',
-            
+
             //flexDirection: 'row',
             //position: 'relative',
         },
