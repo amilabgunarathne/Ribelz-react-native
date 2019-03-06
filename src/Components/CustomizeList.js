@@ -20,15 +20,18 @@ class CustomizeList extends Component {
   }
 
 render(){
+  const {params} = this.props.navigation.state;
+    const {navigate}= this.props.navigation;
     return(
-        <Card>
+        
+          <View  style={{flex: 1,width: '100%', height: '100%',alignItems:'center'}}>
         <Image
-  style={{width: 80, height: 50}}
-  source={{uri:item.url}}
+  style={{ width: '100%', height: '100%',alignItems:'center'}}
+  source={{uri:params.item.image}}
  
 />
-<Text>hi</Text>
-    </Card>
+</View>
+
 
 
     );

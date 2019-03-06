@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "912232333751",
+    "firebase_url": "https://ribelzapp.firebaseio.com",
+    "project_id": "ribelzapp",
+    "storage_bucket": "ribelzapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912232333751:android:186365feaed65f3a",
+        "android_client_info": {
+          "package_name": "com.ribelzapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912232333751-8c513c4eheoel43lrb214nd52251naq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE13X5rFXOalFchMzq3NcfsAbvxPgENCA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

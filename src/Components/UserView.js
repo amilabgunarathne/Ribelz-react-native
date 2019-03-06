@@ -100,33 +100,44 @@ class UserView extends Component {
         // this.setState({ loading: false });
       });
   }
-
-  renderListItem = ({ item }) => (
-    <View style={{ flex: 1,paddingLeft:10,paddingRight:10,paddingTop:10 }}>
-    <TouchableOpacity style={styles.linkStyle} onPress= { () => Linking.openURL(item.image)} >
-
-      <View style={{ width: '80%', height: 70, alignItems: 'flex-start',  flexDirection: 'column' }}>
-        <View style={{
-          width: '80%', height: 50, alignItems: 'flex-start', justifyContent: 'center',
-        }} >
-          <Text style={styles.textStyle1}>{item.post}</Text>
-          <Text style={styles.textStyle1}>{item.description}</Text>
-                  </View>
-        <View style={{ width: '80%', height: 20, alignItems: 'flex-start', flexDirection: 'row' }}>
-          <Text style={styles.textStyle2}>{item.company_name}</Text>
-          <View style={styles.dateStyle}>
-          <Text style={styles.textStyle2}>{item.exp}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.iconViewStyle}>
-            <Image
-          style={styles.iconStyle}
-          source={require('./pics/right-arrow.png')}
-        />
-          </View>
-          </TouchableOpacity>
-    </View>  )
+// touchablePress(){
+//   let path = item.image;
+//   const { navigate } = this.props.navigation;
+//   navigate('customizeList', {picture: path });
+// }
+  // renderListItem = ({ item }) => (
+  //      <View style={{ flex: 1,paddingLeft:10,paddingRight:10,paddingTop:10 }}>
+  
+  //   {/* <TouchableOpacity style={styles.linkStyle} onPress= { () => Linking.openURL(item.image)} > */}
+  //   <TouchableOpacity style={styles.linkStyle} onPress= {()=> navigate('customizeList',{picture:item.image})} >
+  //     <View style={{ width: '70%', height: 70, alignItems: 'flex-start',  flexDirection: 'column' }}>
+  //       <View style={{
+  //         width: '80%', height: 50, alignItems: 'flex-start', justifyContent: 'center',
+  //       }} >
+  //         <Text style={styles.textStyle1}>{item.post}</Text>
+  //         <Text style={styles.textStyle1}>{item.description}</Text>
+  //                 </View>
+  //       <View style={{ width: '80%', height: 20, alignItems: 'flex-start', flexDirection: 'row' }}>
+  //         <Text style={styles.textStyle2}>{item.company_name}</Text>
+  //         <View style={styles.dateStyle}>
+  //         <Text style={styles.textStyle2}>{item.exp}</Text>
+  //         </View>
+  //       </View>
+  //     </View>
+  //     <View style={styles.thumbnailViewStyle}>
+  //           <Image
+  //         style={styles.thumbnailStyle}
+  //         source={{uri: item.image}}
+  //       />
+  //         </View>
+  //     <View style={styles.iconViewStyle}>
+  //           <Image
+  //         style={styles.iconStyle}
+  //         source={require('./pics/right-arrow.png')}
+  //       />
+  //         </View>
+  //         </TouchableOpacity>
+  //   </View>  )
   //   <View style={{flex=1}}>
   //   <Modal isVisible={this.state.isModalVisible}>
   // <View style={{ flex: 1 }}>
@@ -138,11 +149,9 @@ class UserView extends Component {
   //     </View>
   // </Modal>
   // </View>
-
-
-
-
   render() {
+    const {params} = this.props.navigation.state;
+    const {navigate}= this.props.navigation;
     return (
       <View style={styles.bGround}>
         <Img />
@@ -151,7 +160,41 @@ class UserView extends Component {
           <FlatList
             data={this.state.data}
             keyExtractor={(x, i) => i}
-            renderItem={this.renderListItem}
+            // renderItem={this.renderListItem}
+            renderItem={({item})=>
+            <View style={{ flex: 1,paddingLeft:10,paddingRight:10,paddingTop:10 }}>
+  
+            {/* <TouchableOpacity style={styles.linkStyle} onPress= { () => Linking.openURL(item.image)} > */}
+            <TouchableOpacity style={styles.linkStyle} onPress= {()=> navigate('CustomizeList',{item})} >
+              <View style={{ width: '70%', height: 70, alignItems: 'flex-start',  flexDirection: 'column' }}>
+                <View style={{
+                  width: '80%', height: 50, alignItems: 'flex-start', justifyContent: 'center',
+                }} >
+                  <Text style={styles.textStyle1}>{item.post}</Text>
+                  <Text style={styles.textStyle1}>{item.description}</Text>
+                          </View>
+                <View style={{ width: '80%', height: 20, alignItems: 'flex-start', flexDirection: 'row' }}>
+                  <Text style={styles.textStyle2}>{item.company_name}</Text>
+                  <View style={styles.dateStyle}>
+                  <Text style={styles.textStyle2}>{item.exp}</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.thumbnailViewStyle}>
+                    <Image
+                  style={styles.thumbnailStyle}
+                  source={{uri: item.image}}
+                />
+                  </View>
+              <View style={styles.iconViewStyle}>
+                    <Image
+                  style={styles.iconStyle}
+                  source={require('./pics/right-arrow.png')}
+                />
+                  </View>
+                  </TouchableOpacity>
+            </View>
+                                           }
             scrollEnabled={this.state.scrollEnabled}
           />
           {/* {this.renderAlbums()} */}
@@ -221,10 +264,24 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 40
+    marginLeft: 30
     //paddingLeft=40
 
   },
+
+thumbnailStyle : {
+  height: 60,
+  width: 50,
+
+},
+thumbnailViewStyle: {
+  height: 60,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginLeft:10
+  //paddingLeft=40
+
+},
   buttonStyle: {
     height: 30,
     width: 30,
