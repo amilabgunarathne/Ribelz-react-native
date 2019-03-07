@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View,TouchableHighlight,  TouchableOpacity, Image, Alert, FlatList, ScrollView,Linking } from 'react-native';
+import { Platform, StyleSheet, Text, View,TouchableHighlight,AppState,TouchableOpacity, Image, Alert, FlatList,RefreshControl , ScrollView,Linking } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Button from './common/Button';
 import { TabViewAnimated, TabViewPage, TabBarTop } from 'react-native-tab-view';
@@ -9,6 +9,8 @@ import card from './common/Card';
 import Img from './common/background';
 import Card from './common/Card';
 import Modal from "react-native-modal";
+import PushController from './common/PushController';
+import PushNotification from 'react-native-push-notification';
 
 
 class UserView extends Component {
@@ -21,14 +23,34 @@ class UserView extends Component {
   state = {
     scrollEnabled: true,
     data: [],
-    isModalVisible: false
+    isModalVisible: false,
+    refreshing: false
   };
 
-
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  }
 
   componentWillMount() {
     this.fetchData();
 
+  }
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+  handleAppStateChange(appState) {
+    if (appState === 'background') {
+      let date = new Date(Date.now());
+  
+      // if (Platform.OS === 'ios') {
+      //   date = date.toISOString();
+      // }
+  
+      PushNotification.localNotificationSchedule({
+        message: "My Notification Message",
+        date,
+      });
+    }
   }
   renderButton() {
 
@@ -100,6 +122,13 @@ class UserView extends Component {
         // this.setState({ loading: false });
       });
   }
+  _onRefresh(){
+		this.setState({refreshing: true});
+		this.fetchData().then(() =>{
+      <PushController/>
+			this.setState({refreshing: false})
+		});
+}
 // touchablePress(){
 //   let path = item.image;
 //   const { navigate } = this.props.navigation;
@@ -196,6 +225,12 @@ class UserView extends Component {
             </View>
                                            }
             scrollEnabled={this.state.scrollEnabled}
+            refreshControl={
+              <RefreshControl
+              refreshing = {this.state.refreshing}
+              onRefresh={this._onRefresh.bind(this)}
+              />
+      }
           />
           {/* {this.renderAlbums()} */}
         </View>

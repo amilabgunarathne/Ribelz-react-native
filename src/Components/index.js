@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Platform,TextInput, StyleSheet, Text, View,ScrollView,KeyboardAvoidingView, TouchableOpacity, Alert,Image  } from 'react-native';
+import { Platform,TextInput, StyleSheet, Text,Picker,View,ScrollView,AppState,KeyboardAvoidingView, TouchableOpacity, Alert,Image  } from 'react-native';
 import Button from './common/Button';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Img from './common/background';
 import CardSection from './common/CardSection';
+import PushNotification from 'react-native-push-notification';
+import PushController from './common/PushController';
 
 
 class UserProfile extends Component {
@@ -13,10 +15,31 @@ class UserProfile extends Component {
 
     // this.handleAppStateChange = this.handleAppStateChange.bind(this);
     //this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.state = {
-        user_email: '', user_password: '',
+        user_email: '', user_password: '',seconds: 5,
         //error: '', loading: false
     };
+}
+componentDidMount() {
+  AppState.addEventListener('change', this.handleAppStateChange);
+}
+componentWillUnmount() {
+  AppState.removeEventListener('change', this.handleAppStateChange);
+}
+handleAppStateChange(appState) {
+  if (appState === 'background') {
+    let date = new Date(Date.now() + (this.state.seconds * 1000));
+
+    // if (Platform.OS === 'ios') {
+    //   date = date.toISOString();
+    // }
+
+    PushNotification.localNotificationSchedule({
+      message: "My Notification Message",
+      date,
+    });
+  }
 }
   // static navigationOptions =
   // {
@@ -141,9 +164,22 @@ class UserProfile extends Component {
             <View style={styles.buttonStyle}>
               {this.renderButton1()}
             </View>
-            {/* <View style={styles.buttonStyle}>
+           {/* <View style={styles.buttonStyle}>
               {this.renderButton2()}
             </View> */}
+             <View style={styles.pickerContainer}>
+            <Picker
+          style={styles.picker}
+          selectedValue={this.state.seconds}
+          onValueChange={(seconds) => this.setState({ seconds })}
+        >
+          <Picker.Item label="5"  value={5} />
+          <Picker.Item label="10"  value={10} />
+          <Picker.Item label="15"  value={15} />
+</Picker>
+<PushController/> 
+</View>
+
           </KeyboardAvoidingView>
         </ScrollView>
       </View>
@@ -333,11 +369,22 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     flex: 1
   },
+  picker: {
+    width: 100,
+ 
+},
   iconStyle: {
     height: 30,
     width: 30,
     marginRight: 30,
     marginLeft: 30
+  },
+  pickerContainer: {
+    //flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+backgroundColor: '#F5FCFF',
+
   },
   containerStyle: {
     marginTop: 50,
