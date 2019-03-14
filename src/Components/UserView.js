@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View,TouchableHighlight,AppState,TouchableOpacity, Image, Alert, FlatList,RefreshControl , ScrollView,Linking } from 'react-native';
+import { Platform, StyleSheet, Text, View, TouchableHighlight, AppState, TouchableOpacity, Image, Alert, FlatList, RefreshControl, ScrollView, Linking } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Button from './common/Button';
 import { TabViewAnimated, TabViewPage, TabBarTop } from 'react-native-tab-view';
@@ -11,6 +11,7 @@ import Card from './common/Card';
 import Modal from "react-native-modal";
 import PushController from './common/PushController';
 import PushNotification from 'react-native-push-notification';
+import IconBadge from 'react-native-icon-badge';
 
 
 class UserView extends Component {
@@ -24,7 +25,8 @@ class UserView extends Component {
     scrollEnabled: true,
     data: [],
     isModalVisible: false,
-    refreshing: false
+    refreshing: false,
+    BadgeCount:2
   };
 
   componentDidMount() {
@@ -41,11 +43,11 @@ class UserView extends Component {
   handleAppStateChange(appState) {
     if (appState === 'background') {
       let date = new Date(Date.now());
-  
+
       // if (Platform.OS === 'ios') {
       //   date = date.toISOString();
       // }
-  
+
       PushNotification.localNotificationSchedule({
         message: "My Notification Message",
         date,
@@ -111,9 +113,7 @@ class UserView extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         // console.log(responseJson.results[0]);
-        if (responseJson === 'NULL') {
-          const { navigate } = this.props.navigation;
-          navigate('Login');
+        if (responseJson === 'NULL') { 
         }
       }).catch((error) => {
         // console.error(error);
@@ -122,21 +122,21 @@ class UserView extends Component {
         // this.setState({ loading: false });
       });
   }
-  _onRefresh(){
-		this.setState({refreshing: true});
-		this.fetchData().then(() =>{
-      <PushController/>
-			this.setState({refreshing: false})
-		});
-}
-// touchablePress(){
-//   let path = item.image;
-//   const { navigate } = this.props.navigation;
-//   navigate('customizeList', {picture: path });
-// }
+  _onRefresh() {
+    this.setState({ refreshing: true });
+    this.fetchData().then(() => {
+      <PushController />
+      this.setState({ refreshing: false })
+    });
+  }
+  // touchablePress(){
+  //   let path = item.image;
+  //   const { navigate } = this.props.navigation;
+  //   navigate('customizeList', {picture: path });
+  // }
   // renderListItem = ({ item }) => (
   //      <View style={{ flex: 1,paddingLeft:10,paddingRight:10,paddingTop:10 }}>
-  
+
   //   {/* <TouchableOpacity style={styles.linkStyle} onPress= { () => Linking.openURL(item.image)} > */}
   //   <TouchableOpacity style={styles.linkStyle} onPress= {()=> navigate('customizeList',{picture:item.image})} >
   //     <View style={{ width: '70%', height: 70, alignItems: 'flex-start',  flexDirection: 'column' }}>
@@ -179,8 +179,8 @@ class UserView extends Component {
   // </Modal>
   // </View>
   render() {
-    const {params} = this.props.navigation.state;
-    const {navigate}= this.props.navigation;
+    const { params } = this.props.navigation.state;
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.bGround}>
         <Img />
@@ -190,51 +190,73 @@ class UserView extends Component {
             data={this.state.data}
             keyExtractor={(x, i) => i}
             // renderItem={this.renderListItem}
-            renderItem={({item})=>
-            <View style={{ flex: 1,paddingLeft:10,paddingRight:10,paddingTop:10 }}>
-  
-            {/* <TouchableOpacity style={styles.linkStyle} onPress= { () => Linking.openURL(item.image)} > */}
-            <TouchableOpacity style={styles.linkStyle} onPress= {()=> navigate('CustomizeList',{item})} >
-              <View style={{ width: '70%', height: 70, alignItems: 'flex-start',  flexDirection: 'column' }}>
-                <View style={{
-                  width: '80%', height: 50, alignItems: 'flex-start', justifyContent: 'center',
-                }} >
-                  <Text style={styles.textStyle1}>{item.post}</Text>
-                  <Text style={styles.textStyle1}>{item.description}</Text>
-                          </View>
-                <View style={{ width: '80%', height: 20, alignItems: 'flex-start', flexDirection: 'row' }}>
-                  <Text style={styles.textStyle2}>{item.company_name}</Text>
-                  <View style={styles.dateStyle}>
-                  <Text style={styles.textStyle2}>{item.exp}</Text>
+            renderItem={({ item }) =>
+              <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10, paddingTop: 10 }}>
+
+                {/* <TouchableOpacity style={styles.linkStyle} onPress= { () => Linking.openURL(item.image)} > */}
+                <TouchableOpacity style={styles.linkStyle} onPress={() => navigate('CustomizeList', { item })} >
+                  <View style={{ width: '70%', height: 70, alignItems: 'flex-start', flexDirection: 'column' }}>
+                    <View style={{
+                      width: '80%', height: 50, alignItems: 'flex-start', justifyContent: 'center',
+                    }} >
+                      <Text style={styles.textStyle1}>{item.post}</Text>
+                      <Text style={styles.textStyle1}>{item.description}</Text>
+                    </View>
+                    <View style={{ width: '80%', height: 20, alignItems: 'flex-start', flexDirection: 'row' }}>
+                      <Text style={styles.textStyle2}>{item.company_name}</Text>
+                      <View style={styles.dateStyle}>
+                        <Text style={styles.textStyle2}>{item.exp}</Text>
+                      </View>
+                    </View>
                   </View>
-                </View>
+                  <View style={styles.thumbnailViewStyle}>
+                    <Image
+                      style={styles.thumbnailStyle}
+                      source={{ uri: item.image }}
+                    />
+                  </View>
+                  <View style={styles.iconViewStyle}>
+                    <Image
+                      style={styles.iconStyle}
+                      source={require('./pics/right-arrow.png')}
+                    />
+                  </View>
+                </TouchableOpacity>
               </View>
-              <View style={styles.thumbnailViewStyle}>
-                    <Image
-                  style={styles.thumbnailStyle}
-                  source={{uri: item.image}}
-                />
-                  </View>
-              <View style={styles.iconViewStyle}>
-                    <Image
-                  style={styles.iconStyle}
-                  source={require('./pics/right-arrow.png')}
-                />
-                  </View>
-                  </TouchableOpacity>
-            </View>
-                                           }
+            }
             scrollEnabled={this.state.scrollEnabled}
             refreshControl={
               <RefreshControl
-              refreshing = {this.state.refreshing}
-              onRefresh={this._onRefresh.bind(this)}
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
               />
-      }
+            }
           />
           {/* {this.renderAlbums()} */}
         </View>
-
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
+          <IconBadge
+            MainElement={
+              <View style={{
+                backgroundColor: '#489EFE',
+                width: 50,
+                height: 50,
+                margin: 6
+              }} />
+            }
+            BadgeElement={
+              <Text style={{ color: '#FFFFFF' }}>{this.state.BadgeCount}</Text>
+            }
+            IconBadgeStyle={
+              {
+                width: 30,
+                height: 30,
+                backgroundColor: '#FF00EE'
+              }
+            }
+            Hidden={this.state.BadgeCount == 0}
+          />
+        </View>
         <View style={styles.buttonStyle}>
           {this.renderButton()}
         </View>
@@ -304,19 +326,19 @@ const styles = StyleSheet.create({
 
   },
 
-thumbnailStyle : {
-  height: 60,
-  width: 50,
+  thumbnailStyle: {
+    height: 60,
+    width: 50,
 
-},
-thumbnailViewStyle: {
-  height: 60,
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginLeft:10
-  //paddingLeft=40
+  },
+  thumbnailViewStyle: {
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10
+    //paddingLeft=40
 
-},
+  },
   buttonStyle: {
     height: 30,
     width: 30,

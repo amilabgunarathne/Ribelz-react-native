@@ -3,6 +3,8 @@ package com.ribelzapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.reactlibrary.RNAndroidIconBadgePackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RNAndroidIconBadgePackage(),
             new FIRMessagingPackage(),
             new ReactNativePushNotificationPackage(),
             new RNFetchBlobPackage(),

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform,TextInput, StyleSheet, Text,Picker,View,ScrollView,AppState,KeyboardAvoidingView, TouchableOpacity, Alert,Image  } from 'react-native';
+import { Platform,TextInput, StyleSheet, Text,Picker,View,ScrollView,AppState,Icon,KeyboardAvoidingView, TouchableOpacity, Alert,Image  } from 'react-native';
 import Button from './common/Button';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -7,9 +7,16 @@ import Img from './common/background';
 import CardSection from './common/CardSection';
 import PushNotification from 'react-native-push-notification';
 import PushController from './common/PushController';
-
+//import IconBadge from 'react-native-icon-badge';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {withBadge} from 'react-native-elements';
+//import WithBadge from './common/WithBadge';
 
 class UserProfile extends Component {
+  // static navigationOptions = {
+  //   title: '',
+  // };
+  
   constructor(props) {
     super(props);
 
@@ -17,7 +24,7 @@ class UserProfile extends Component {
     //this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.state = {
-        user_email: '', user_password: '',seconds: 5,
+        user_email: '', user_password: '',seconds: 5,BadgeCount:2
         //error: '', loading: false
     };
 }
@@ -107,8 +114,9 @@ handleAppStateChange(appState) {
           </Button>
     );
   }
-
+  
   render() {
+    //const BadgedIcon = WithBadge(1)(Icon);
     return (
       <View style={{ flex: 1 }}>
         <Img />
@@ -188,13 +196,45 @@ handleAppStateChange(appState) {
 }
 
 class AdminProfile extends Component {
+
+
+//   static navigationOptions = () =>  {
+//     const BadgedIcon = withBadge(1)(Icon);
+//     return {
+//     //title: '',
+    
+//     tabBarLabel: "Empty",
+//       tabBarIcon: ({ tintColor }) => 
+// <React.Fragment>
+//         <BadgedIcon
+//          //name={`${Platform.OS === "ios" ? "ios" : "md"}-square-outline`}
+//           type="ionicon"
+//           color={tintColor}
+//         />
+//       </React.Fragment>
+//     };
+//   };
+     // navigationOptions = {
+     
+      
+    //   tabBarLabel: "Empty",
+    //   tabBarIcon: ({ tintColor }) => WithBadge(
+    //     <Icon
+    //     //name={`${Platform.OS === "ios" ? "ios" : "md"}-square-outline`}
+    //       type="ionicon"
+    //       color={tintColor}
+    //     />
+    //   )(1)
+      
+    // }
+
   constructor(props) {
     super(props);
 
     // this.handleAppStateChange = this.handleAppStateChange.bind(this);
     //this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     this.state = {
-        user_email: '', user_password: '',
+        user_email: '', user_password: '',BadgeCount:2
         //error: '', loading: false
     };
 }
@@ -265,7 +305,9 @@ class AdminProfile extends Component {
   }
 
   render() {
+    //const BadgedIcon = WithBadge(1)(Icon);
     return (
+      
       <View style={{ flex: 1 }}>
         <Img />
         <ScrollView keyboardShouldPersistTaps='always'>
@@ -329,11 +371,121 @@ class AdminProfile extends Component {
     );
   }
 }
+class IconWithBadge extends React.Component {
+  render() {
+    const { name, badgeCount, color, size } = this.props;
+    return (
+      <View style={{ width: 24, height: 24, margin: 5 }}>
+        <Ionicons name={name} size={size} color={color} />
+        {badgeCount > 0 && (
+          <View
+            style={{
+              // /If you're using react-native < 0.57 overflow outside of the parent
+              // will not work on Android, see https://git.io/fhLJ8
+              position: 'absolute',
+              right: -6,
+              top: -3,
+              backgroundColor: 'red',
+              borderRadius: 6,
+              width: 12,
+              height: 12,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>
+              {badgeCount}
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  }
+}
 
+const HomeIconWithBadge = props => {
+  // You should pass down the badgeCount in some other ways like context, redux, mobx or event emitters.
+  return <IconWithBadge {...props} badgeCount={3} />;
+};
+const getTabBarIcon = (navigation, focused, tintColor) => {
+  const { routeName } = navigation.state;
+  let IconComponent = Ionicons;
+  let iconName;
+  if (routeName === 'AdminProfile') {
+    iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+    // We want to add badges to home tab icon
+    IconComponent = HomeIconWithBadge;
+  } else if (routeName === 'UserProfile') {
+    iconName = `ios-options${focused ? '' : '-outline'}`;
+  }
+
+  // You can return any component that you like here!
+  return <IconComponent name={iconName} size={25} color={tintColor} />;
+};
+//const BadgedIcon = withBadge(1)(Icon);
 const Login = createBottomTabNavigator({
-  AdminProfile: { screen: AdminProfile },
+ 
+   AdminProfile: { screen: AdminProfile
+  //  navigationOptions = () =>  {
+  //     const BadgedIcon = withBadge(1)(Icon);
+  //     return {
+  //     //title: '',
+      
+  //     tabBarLabel: "Empty",
+  //       tabBarIcon: ({ tintColor }) => 
+  
+  //         <BadgedIcon
+  //          //name={`${Platform.OS === "ios" ? "ios" : "md"}-square-outline`}
+  //           type="ionicon"
+  //           color={tintColor}
+  //         />
+        
+  //     };
+  //   }
+  
+  
+  
+  
+  },
+   //BadgedIcon = WithBadge(1)(Icon),
+    // navigationOptions = {
+     
+      
+    //   tabBarLabel: "Empty",
+    //   tabBarIcon: ({ tintColor }) => WithBadge(
+    //     <Icon
+    //     //name={`${Platform.OS === "ios" ? "ios" : "md"}-square-outline`}
+    //       type="ionicon"
+    //       color={tintColor}
+    //     />
+    //   )(1)
+      
+    // }
+
+  //   navigationOptions: () => ({
+  //     tabBarIcon: ({tintColor}) =>
+  //       <IconBadge
+  //         MainElement={<Icon name='AdminProfile' size={22} color={tintColor} />}
+  //         BadgeElement={<Text style={{ color: 'white' }}>5</Text>}
+  //         //Hidden={this.state.BadgeCount === 0}
+  //       />
+  //   })
+  
+  
+ 
   UserProfile: { screen: UserProfile }
-});
+},
+{
+  defaultNavigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, tintColor }) =>
+      getTabBarIcon(navigation, focused, tintColor),
+  }),
+  tabBarOptions: {
+    activeTintColor: 'tomato',
+    inactiveTintColor: 'gray',
+  },
+}
+
+);
 export default createAppContainer(Login);
 
 const styles = StyleSheet.create({
